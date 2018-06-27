@@ -86,12 +86,9 @@ $(function() {
         it('visibility toggle works', function(){
             var menu_icon = $(".menu-icon-link")[0];
             var hidden_items = document.getElementsByClassName("menu-hidden");
-            debugger;
             menu_icon.click()
-            debugger;   
             expect(hidden_items.length).toBe(0);
             menu_icon.click();
-            debugger;
             expect(hidden_items.length).toBe(1);
          })
 
@@ -108,6 +105,16 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+
+         beforeEach(function(done){
+            loadFeed(0, done);
+         })
+
+         it('should have at least one entry', function(done) {
+            var all_entries = document.getElementsByClassName("entry-link");
+            expect(all_entries.length).toBeGreaterThan(0);
+            done();
+         })
     })
 
      
@@ -118,6 +125,27 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+
+         beforeEach(function(done){
+            window.feedList = [];
+
+            
+            loadFeed(0, ()=>{
+                window.feedZero = document.getElementsByClassName("feed")[0].innerHTML;
+            });
+            loadFeed(1, ()=>{
+                window.feedOne = document.getElementsByClassName("feed")[0].innerHTML;
+                done();
+            });
+
+         })
+
+         it('should change feed info changes when new feed is loaded', function(done){
+            expect(window.feedZero!=window.feedOne).toBe(true);
+            done();
+         })
+
+         
     })
 
 
