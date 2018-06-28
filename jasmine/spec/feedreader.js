@@ -27,10 +27,8 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         */
+        // Makes sure all feeds have a url
+        
          it('have url', function(){
             let allHaveURL = true;
             for(let feed of allFeeds){
@@ -43,10 +41,8 @@ $(function() {
          });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+        // Makes sure all feeds have a name
+        
 
          it('have name', function(){
             let allHaveName = true;
@@ -61,13 +57,10 @@ $(function() {
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
+    // test suite for menu
     describe('The menu', function(){
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+        // makes sure the slide menu starts off as hidden
+        
 
 
          it('default is hidden', function(){
@@ -77,19 +70,16 @@ $(function() {
 
          })
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
+         /* makes sure the menu's visibility is toggled when
+         / menu-icon-link is clicked
           */
 
         it('visibility toggle works', function(){
             var menu_icon = $(".menu-icon-link")[0];
-            var hidden_items = document.getElementsByClassName("menu-hidden");
             menu_icon.click()
-            expect(hidden_items.length).toBe(0);
+            expect($('body').hasClass("menu-hidden")).toBe(false);
             menu_icon.click();
-            expect(hidden_items.length).toBe(1);
+            expect($('body').hasClass("menu-hidden")).toBe(true);
          })
 
 
@@ -97,46 +87,40 @@ $(function() {
 
         
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+   
     describe('Initial Entries', function(){
-           /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+           // Makes sure load Feed loads at least one entry
+         
 
          beforeEach(function(done){
             loadFeed(0, done);
          })
 
          it('should have at least one entry', function(done) {
-            var all_entries = document.getElementsByClassName("entry-link");
-            expect(all_entries.length).toBeGreaterThan(0);
+            expect($(".feed .entry").length).toBeGreaterThan(0);
             done();
          })
     })
 
      
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
+
     describe('New Feed Selection', function(){
-                /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        // Esures Feed reader changes when loading a new feed
+        
 
          beforeEach(function(done){
             window.feedList = [];
 
             
-            loadFeed(0, ()=>{
+            loadFeed(0, function(){
                 window.feedZero = document.getElementsByClassName("feed")[0].innerHTML;
-            });
-            loadFeed(1, ()=>{
+            
+                loadFeed(1, function(){
                 window.feedOne = document.getElementsByClassName("feed")[0].innerHTML;
                 done();
-            });
+                })
+            })
 
          })
 
